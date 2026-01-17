@@ -77,10 +77,13 @@ class VLLMModel(OpenAICompatibleModel):
         if not self._url:
             self._start_server()
 
+        # Use provided api_key, or default to "Not_Used" for servers without auth
+        effective_api_key = api_key if api_key is not None else "Not_Used"
+
         super().__init__(
             model_type=self._model_type,
             model_config_dict=model_config_dict,
-            api_key="Not_Used",
+            api_key=effective_api_key,
             url=self._url,
             token_counter=token_counter,
             timeout=timeout,
